@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b3w1vbkhlps4x"]
+
+[ext_resource type="Texture2D" uid="uid://x5yof1qr3dx5" path="res://icon.svg" id="1_e7ajd"]
+[ext_resource type="Script" uid="uid://xrwqy5eubwse" path="res://scripts/mobile_invocation.gd" id="1_k3cgv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
+
+[node name="mobile_invocation" type="CharacterBody2D" unique_id=1774157373]
+script = ExtResource("1_k3cgv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=44230579]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_e7ajd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2074098837]
+shape = SubResource("RectangleShape2D_bhunq")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=163092221]
+
+[node name="TimerPossession" type="Timer" parent="." unique_id=1281097100]
+one_shot = true
