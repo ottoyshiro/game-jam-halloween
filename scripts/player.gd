@@ -15,16 +15,31 @@ signal stamina_changed(current_stamina, max_stamina)
 
 @export var mobile_invocation_scene: PackedScene
 @export var mobile_invocation_cost: float = 50.0
+@export var current_time_possession: float = 3.0
+
+@export var transition: CanvasLayer
 
 @onready var camera: Camera2D = $Camera2D
 
 var last_direction: Vector2 = Vector2.DOWN
 var current_stamina: float
 var is_possessing: bool = false
+var spawn_point: Vector2
+
+var collected_items: Array[int] = []
 
 func _ready() -> void:
+	transition.visible = true
+	
 	current_stamina = max_stamina
 	stamina_changed.emit(current_stamina, max_stamina)
+	
+	var spawn_node = get_tree().get_first_node_in_group("SpawnPoint")
+	if spawn_node != null:
+		spawn_point = spawn_node.global_position
+		self.global_position = spawn_point
+	else:
+		spawn_point = self.global_position
 
 func _process(delta: float) -> void:
 	if velocity.length() > 0:
@@ -80,6 +95,8 @@ func mobile_invoke() -> void:
 		if mobile_invocation_scene != null:
 			var invoke = mobile_invocation_scene.instantiate()
 			
+			invoke.max_time_possession = current_time_possession
+			
 			var spawn_position = global_position + (last_direction * invocation_distance)
 			invoke.global_position = spawn_position
 			
@@ -101,4 +118,29 @@ func spend_stamina(cost: float) -> bool:
 		stamina_changed.emit(current_stamina, max_stamina)
 		return true
 	else:
+		current_stamina = 0.0
+		stamina_changed.emit(current_stamina, max_stamina)
 		return false
+
+func die() -> void:
+	if transition != null:
+		transition.execute_transition(_execute_respawn)
+	else:
+		_execute_respawn()
+
+func _execute_respawn() -> void:
+	print("The Invoker succumbed to the darkness... Returning to Hub!")
+	if is_possessing:
+		return_control()
+	
+	current_stamina = max_stamina
+	stamina_changed.emit(current_stamina, max_stamina)
+	
+	self.global_position = spawn_point
+
+func apply_upgrade(item_id: int, new_time_possession: float) -> void:
+	if not collected_items.has(item_id):
+		collected_items.append(item_id)
+		print("Player items: ", collected_items)
+	current_time_possession = new_time_possession
+	print("Upgrade applied! New time possession: ", current_time_possession)

@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends CharacterBody2D
 
 @export var life_time: float = 10.0
 

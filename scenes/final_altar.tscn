@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://p4gwi7buo04e"]
+
+[ext_resource type="Script" uid="uid://c408kj3lesfae" path="res://scripts/final_altar.gd" id="1_ahc6q"]
+[ext_resource type="Texture2D" uid="uid://x5yof1qr3dx5" path="res://icon.svg" id="2_yfes7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
+size = Vector2(147, 142)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yfes7"]
+size = Vector2(127, 126)
+
+[node name="FinalAltar" type="Area2D" unique_id=1139325104]
+script = ExtResource("1_ahc6q")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1283550033]
+texture = ExtResource("2_yfes7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=366961338]
+position = Vector2(-0.5, 1)
+shape = SubResource("RectangleShape2D_bhunq")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1124979235]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=1279634024]
+offset_left = 449.0
+offset_top = 303.0
+offset_right = 660.0
+offset_bottom = 326.0
+text = "Press [E] to start final ritual"
+
+[node name="AltarInfo" type="Label" parent="CanvasLayer" unique_id=1248897544]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -461.0
+offset_top = -389.0
+offset_right = 455.0
+offset_bottom = -366.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "He who gathers the Relic of the Mind, the Symbol of Life, and the Seal of Shadow shall attain Supreme Power... or Ruin."
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1752621988]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2088011571]
+shape = SubResource("RectangleShape2D_yfes7")

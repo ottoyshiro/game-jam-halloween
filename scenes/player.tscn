@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bd8kap3vrfoap" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="PackedScene" uid="uid://dpqp8svfw174v" path="res://scenes/static_invocation.tscn" id="2_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://b3w1vbkhlps4x" path="res://scenes/mobile_invocation.tscn" id="3_dqkch"]
+[ext_resource type="PackedScene" uid="uid://d0bln6syhdwov" path="res://scenes/transition.tscn" id="5_qlg0r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
 
@@ -18,10 +19,12 @@ func _on_stamina_changed(current_stamina: Variant, max_stamina: Variant) -> void
 	self.value = current_stamina
 "
 
-[node name="Player" type="CharacterBody2D" unique_id=1649936855]
+[node name="Player" type="CharacterBody2D" unique_id=1649936855 node_paths=PackedStringArray("transition") groups=["Player"]]
+z_index = 1
 script = ExtResource("1_g2els")
 static_invocation_scene = ExtResource("2_qhqgy")
 mobile_invocation_scene = ExtResource("3_dqkch")
+transition = NodePath("Transition")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=385158795]
 scale = Vector2(0.2, 0.2)
@@ -42,5 +45,8 @@ offset_bottom = 28.0
 show_percentage = false
 script = SubResource("GDScript_g2els")
 player = NodePath("../..")
+
+[node name="Transition" parent="." unique_id=1609294888 instance=ExtResource("5_qlg0r")]
+visible = false
 
 [connection signal="stamina_changed" from="." to="UI/StaminaBar" method="_on_stamina_changed"]

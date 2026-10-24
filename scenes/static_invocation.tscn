@@ -5,7 +5,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
 
-[node name="StaticInvocation" type="StaticBody2D" unique_id=1187190883]
+[node name="StaticInvocation" type="CharacterBody2D" unique_id=936496098]
 script = ExtResource("1_rexa7")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=21722096]

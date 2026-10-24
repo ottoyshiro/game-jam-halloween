@@ -2,6 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://x5yof1qr3dx5" path="res://icon.svg" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bgd84ook234wo" path="res://scenes/player.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://lx8rm10kshtr" path="res://scenes/pressure_plate.tscn" id="3_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://b8kpvu1m3ks2b" path="res://scenes/door.tscn" id="4_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://bqnqxuex5p4ng" path="res://scenes/dark_zone.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://c74pserq1mpba" path="res://scenes/ordeal_item.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://p4gwi7buo04e" path="res://scenes/final_altar.tscn" id="7_o6xl0"]
 
 [node name="Main" type="Node2D" unique_id=1402942402]
 
@@ -11,3 +16,32 @@ scale = Vector2(5.5937495, 5.0610113)
 texture = ExtResource("1_o5qli")
 
 [node name="Player" parent="." unique_id=1649936855 instance=ExtResource("2_0wfyh")]
+
+[node name="PressurePlate" parent="." unique_id=215839675 instance=ExtResource("3_jyhfs")]
+position = Vector2(290, 107)
+
+[node name="Door" parent="." unique_id=155090145 instance=ExtResource("4_tbgi4")]
+position = Vector2(277, 65)
+
+[node name="DarkZone" parent="." unique_id=102945759 instance=ExtResource("5_tbgi4")]
+position = Vector2(290, 147)
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=511140937 groups=["SpawnPoint"]]
+position = Vector2(294, 210)
+
+[node name="OrdealItem" parent="." unique_id=918856557 instance=ExtResource("6_tefeu")]
+position = Vector2(292, 31)
+
+[node name="OrdealItem2" parent="." unique_id=856556080 instance=ExtResource("6_tefeu")]
+position = Vector2(383, 58)
+item_id = 2
+
+[node name="OrdealItem3" parent="." unique_id=305006690 instance=ExtResource("6_tefeu")]
+position = Vector2(143, 74)
+item_id = 3
+
+[node name="FinalAltar" parent="." unique_id=1139325104 instance=ExtResource("7_o6xl0")]
+position = Vector2(309, 248)
+
+[connection signal="pressed" from="PressurePlate" to="Door" method="open"]
+[connection signal="unpressed" from="PressurePlate" to="Door" method="close"]

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bqnqxuex5p4ng"]
+
+[ext_resource type="Script" uid="uid://cwmtm141bn0nx" path="res://scripts/dark_zone.gd" id="1_qi6qm"]
+[ext_resource type="Texture2D" uid="uid://x5yof1qr3dx5" path="res://icon.svg" id="1_vbbq5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vbbq5"]
+size = Vector2(64, 24)
+
+[node name="DarkZone" type="Area2D" unique_id=102945759]
+script = ExtResource("1_qi6qm")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1774119449]
+modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.5, 0.2)
+texture = ExtResource("1_vbbq5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1476541168]
+shape = SubResource("RectangleShape2D_vbbq5")
