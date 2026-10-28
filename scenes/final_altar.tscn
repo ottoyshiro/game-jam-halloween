@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://p4gwi7buo04e"]
 
 [ext_resource type="Script" uid="uid://c408kj3lesfae" path="res://scripts/final_altar.gd" id="1_ahc6q"]
-[ext_resource type="Texture2D" uid="uid://x5yof1qr3dx5" path="res://icon.svg" id="2_yfes7"]
+[ext_resource type="Texture2D" uid="uid://cyver76ckst3o" path="res://sprites/gamejam.png" id="2_yfes7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
 size = Vector2(147, 142)
@@ -13,7 +13,13 @@ size = Vector2(127, 126)
 script = ExtResource("1_ahc6q")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1283550033]
+texture_filter = 1
+position = Vector2(-3.8146973e-06, -12.500004)
+scale = Vector2(3.8593748, 4.4999995)
 texture = ExtResource("2_yfes7")
+hframes = 6
+vframes = 14
+frame = 24
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=366961338]
 position = Vector2(-0.5, 1)

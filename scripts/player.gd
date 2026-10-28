@@ -5,13 +5,13 @@ signal stamina_changed(current_stamina, max_stamina)
 
 @export var max_stamina: float = 100.0
 @export var regeneration_rate: float = 10.0
-@export var max_speed: float = 300.0
+@export var max_speed: float = 100.0
 @export var acceleration: float = 2000.0
 @export var friction: float = 2000.0
 
 @export var static_invocation_scene: PackedScene
 @export var static_invocation_cost: float = 30.0
-@export var invocation_distance: float = 32.0
+@export var invocation_distance: float = 12.0
 
 @export var mobile_invocation_scene: PackedScene
 @export var mobile_invocation_cost: float = 50.0
@@ -20,15 +20,21 @@ signal stamina_changed(current_stamina, max_stamina)
 @export var transition: CanvasLayer
 
 @onready var camera: Camera2D = $Camera2D
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var last_direction: Vector2 = Vector2.DOWN
 var current_stamina: float
 var is_possessing: bool = false
 var spawn_point: Vector2
 
+var time_stopped: float = 0.0
+var can_sleep: bool = false
+
 var collected_items: Array[int] = []
 
 func _ready() -> void:
+	animation_player.play("idle_rest")
 	transition.visible = true
 	
 	current_stamina = max_stamina
@@ -64,6 +70,22 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		
 	move_and_slide()
+	
+	if velocity.is_zero_approx():
+		# Se estiver parado, acumula o tempo que passou
+		time_stopped += delta
+		
+		# Dispara a ação apenas uma vez quando atinge o limite
+		if time_stopped >= 5.0 and not can_sleep:
+			animation_player.play("idle_rest")
+
+		if time_stopped >= 7.0 and not can_sleep:
+			player_is_afk()
+			can_sleep = true
+	else:
+		# Se ele se mexeu, reseta o temporizador e a trava
+		time_stopped = 0.0
+		can_sleep = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_possessing:
@@ -76,6 +98,24 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("ui_focus_next"):
 		mobile_invoke()
+	
+	if event.is_action_pressed("left"):
+		animation_player.play("idle")
+		sprite.flip_h = false
+	
+	if event.is_action_pressed("right"):
+		animation_player.play("idle")
+		sprite.flip_h = true
+	
+	if event.is_action_pressed("down"):
+		animation_player.play("idle_rest")
+	
+	if event.is_action_pressed("up"):
+		animation_player.play("backwards")
+	
+
+func player_is_afk() -> void:
+	animation_player.play("idle_sleep")
 
 func static_invoke() -> void:
 	if spend_stamina(static_invocation_cost):

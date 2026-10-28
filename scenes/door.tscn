@@ -1,19 +1,75 @@
 [gd_scene format=3 uid="uid://b8kpvu1m3ks2b"]
 
-[ext_resource type="Texture2D" uid="uid://x5yof1qr3dx5" path="res://icon.svg" id="1_hpvv5"]
 [ext_resource type="Script" uid="uid://c82e2npxyoco0" path="res://scripts/door.gd" id="1_uvdjg"]
+[ext_resource type="Texture2D" uid="uid://cw1iyg1n7otvj" path="res://sprites/Dungeon tileset.png" id="2_uvdjg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
-size = Vector2(51, 12)
+size = Vector2(51, 27)
+
+[sub_resource type="Animation" id="Animation_uvdjg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 112, 48, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_83dcw"]
+resource_name = "open"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.186413),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Rect2(0, 112, 48, 32), Rect2(96, 112, 48, 32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_la1wf"]
+_data = {
+&"RESET": SubResource("Animation_uvdjg"),
+&"open": SubResource("Animation_83dcw")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
+size = Vector2(10, 27)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sn0t7"]
+size = Vector2(9, 27)
 
 [node name="Door" type="StaticBody2D" unique_id=155090145]
 script = ExtResource("1_uvdjg")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1709424916]
+texture_filter = 1
 position = Vector2(18.8, 0)
-scale = Vector2(0.4, 0.1)
-texture = ExtResource("1_hpvv5")
+texture = ExtResource("2_uvdjg")
+region_enabled = true
+region_rect = Rect2(0, 112, 48, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1412945089]
-position = Vector2(18.5, 0)
+position = Vector2(18.5, -0.5)
 shape = SubResource("RectangleShape2D_bhunq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=751324931]
+libraries/ = SubResource("AnimationLibrary_la1wf")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1888689673]
+position = Vector2(-2, -0.5)
+shape = SubResource("RectangleShape2D_riqys")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="." unique_id=1437953261]
+position = Vector2(39.5, -0.5)
+shape = SubResource("RectangleShape2D_sn0t7")

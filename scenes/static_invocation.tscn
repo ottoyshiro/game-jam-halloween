@@ -1,16 +1,23 @@
 [gd_scene format=3 uid="uid://dpqp8svfw174v"]
 
-[ext_resource type="Texture2D" uid="uid://x5yof1qr3dx5" path="res://icon.svg" id="1_nh2m4"]
 [ext_resource type="Script" uid="uid://duxllroqdtefh" path="res://scripts/static_invocation.gd" id="1_rexa7"]
+[ext_resource type="Texture2D" uid="uid://cw1iyg1n7otvj" path="res://sprites/Dungeon tileset.png" id="2_rexa7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
+size = Vector2(10, 7)
 
 [node name="StaticInvocation" type="CharacterBody2D" unique_id=936496098]
 script = ExtResource("1_rexa7")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=21722096]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_nh2m4")
+z_index = 2
+texture_filter = 1
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_rexa7")
+hframes = 21
+vframes = 9
+frame = 91
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=160650001]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1594116568]
+position = Vector2(-1, 4)
 shape = SubResource("RectangleShape2D_bhunq")

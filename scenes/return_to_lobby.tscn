@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://b3girnvry2qjd"]
+
+[ext_resource type="Texture2D" uid="uid://idt1ujb4g08x" path="res://sprites/spritesheet.png" id="1_0pcu0"]
+[ext_resource type="Script" uid="uid://bfp4bbg2opvue" path="res://scripts/return_to_lobby.gd" id="1_vhel0"]
+
+[sub_resource type="Animation" id="Animation_0pcu0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [27]
+}
+
+[sub_resource type="Animation" id="Animation_vhel0"]
+resource_name = "return"
+length = 0.65
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [27, 26, 25, 24, 23, 22, 21]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6prfk"]
+_data = {
+&"RESET": SubResource("Animation_0pcu0"),
+&"return": SubResource("Animation_vhel0")
+}
+
+[node name="ReturnToLobby" type="Node2D" unique_id=483905934]
+script = ExtResource("1_vhel0")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=744864198]
+texture_filter = 1
+texture = ExtResource("1_0pcu0")
+hframes = 8
+vframes = 5
+frame = 27
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1441630144]
+libraries/ = SubResource("AnimationLibrary_6prfk")

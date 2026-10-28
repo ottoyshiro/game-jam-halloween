@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://bgd84ook234wo"]
 
-[ext_resource type="Texture2D" uid="uid://x5yof1qr3dx5" path="res://icon.svg" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bd8kap3vrfoap" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="PackedScene" uid="uid://dpqp8svfw174v" path="res://scenes/static_invocation.tscn" id="2_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://b3w1vbkhlps4x" path="res://scenes/mobile_invocation.tscn" id="3_dqkch"]
+[ext_resource type="Texture2D" uid="uid://idt1ujb4g08x" path="res://sprites/spritesheet.png" id="4_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://d0bln6syhdwov" path="res://scenes/transition.tscn" id="5_qlg0r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
+size = Vector2(13, 7)
 
 [sub_resource type="GDScript" id="GDScript_g2els"]
 resource_name = "stamina_bar"
@@ -19,21 +20,164 @@ func _on_stamina_changed(current_stamina: Variant, max_stamina: Variant) -> void
 	self.value = current_stamina
 "
 
+[sub_resource type="Animation" id="Animation_qlg0r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ur7pv"]
+resource_name = "backwards"
+length = 0.19999999999999998
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.18571109),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [37, 38]
+}
+
+[sub_resource type="Animation" id="Animation_y4r1p"]
+resource_name = "collect_blue"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_d2wvv"]
+resource_name = "collect_green"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_3v2ag"]
+resource_name = "collect"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_tuyoq"]
+resource_name = "idle"
+length = 0.2
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1527472),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_fjrip"]
+resource_name = "backwards"
+length = 0.2
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_smehm"]
+resource_name = "idle_sleep"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fjrip"]
+_data = {
+&"RESET": SubResource("Animation_qlg0r"),
+&"backwards": SubResource("Animation_ur7pv"),
+&"collect_blue": SubResource("Animation_y4r1p"),
+&"collect_green": SubResource("Animation_d2wvv"),
+&"collect_red": SubResource("Animation_3v2ag"),
+&"idle": SubResource("Animation_tuyoq"),
+&"idle_rest": SubResource("Animation_fjrip"),
+&"idle_sleep": SubResource("Animation_smehm")
+}
+
 [node name="Player" type="CharacterBody2D" unique_id=1649936855 node_paths=PackedStringArray("transition") groups=["Player"]]
-z_index = 1
+z_index = 2
 script = ExtResource("1_g2els")
 static_invocation_scene = ExtResource("2_qhqgy")
 mobile_invocation_scene = ExtResource("3_dqkch")
 transition = NodePath("Transition")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=385158795]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_3vyb7")
+texture_filter = 1
+texture = ExtResource("4_qlg0r")
+hframes = 8
+vframes = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1476057971]
+position = Vector2(-0.5, 4.5)
 shape = SubResource("RectangleShape2D_bhunq")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1453956324]
+zoom = Vector2(5, 5)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1689850918]
 
@@ -48,5 +192,9 @@ player = NodePath("../..")
 
 [node name="Transition" parent="." unique_id=1609294888 instance=ExtResource("5_qlg0r")]
 visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=495987795]
+libraries/ = SubResource("AnimationLibrary_fjrip")
+autoplay = &"idle"
 
 [connection signal="stamina_changed" from="." to="UI/StaminaBar" method="_on_stamina_changed"]

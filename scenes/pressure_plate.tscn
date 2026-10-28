@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://ygl3yn1asb4b" path="res://scripts/pressure_plate.gd" id="1_xtofl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
-size = Vector2(12, 12)
+size = Vector2(10, 10)
 
 [node name="PressurePlate" type="Area2D" unique_id=215839675]
 modulate = Color(1, 0.7137255, 0, 1)
