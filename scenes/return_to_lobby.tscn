@@ -3,6 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://idt1ujb4g08x" path="res://sprites/spritesheet.png" id="1_0pcu0"]
 [ext_resource type="Script" uid="uid://bfp4bbg2opvue" path="res://scripts/return_to_lobby.gd" id="1_vhel0"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_bhunq"]
+radius = 17.117243
+
 [sub_resource type="Animation" id="Animation_0pcu0"]
 length = 0.001
 tracks/0/type = "value"
@@ -40,11 +43,15 @@ _data = {
 &"return": SubResource("Animation_vhel0")
 }
 
-[node name="ReturnToLobby" type="Node2D" unique_id=483905934]
+[node name="ReturnToLobby" type="Area2D" unique_id=1693658278]
 script = ExtResource("1_vhel0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=401500127]
+shape = SubResource("CircleShape2D_bhunq")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=744864198]
 texture_filter = 1
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_0pcu0")
 hframes = 8
 vframes = 5
@@ -52,3 +59,5 @@ frame = 27
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1441630144]
 libraries/ = SubResource("AnimationLibrary_6prfk")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

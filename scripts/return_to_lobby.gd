@@ -1,13 +1,40 @@
-extends Node2D
+extends Area2D
 
-@export var lobby: PackedScene
+@export var teleport_destination: Marker2D
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var collisor: CollisionShape2D = $CollisionShape2D
 
 func _ready() -> void:
-	pass # Replace with function body.
+	sprite_2d.visible = false
+	collisor.set_deferred("disabled", true)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
+func show_teleport() -> void:
+	collisor.set_deferred("disabled", false)
+	sprite_2d.visible = true
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		body.is_possessing = true
+		if teleport_destination == null:
+			print("WARNING: teleport_destination is not assigned in the Inspector!")
+			return
+		
+		body.sprite.flip_h = false
+		body._trocar_animacao("idle_rest")
+		body.global_position = Vector2(global_position.x+1.5, global_position.y-5)
 		animation_player.play("return")
 		await get_tree().create_timer(1).timeout
-		get_tree().change_scene_to_packed(lobby)
+		
+		var transition = body.transition
+		if transition != null:
+			transition.execute_transition(func():
+				body.define_new_spawn_point(teleport_destination.global_position)
+				body.global_position = teleport_destination.global_position
+				body.is_possessing = false
+			)
+		else:
+			body.define_new_spawn_point(teleport_destination.global_position)
+			body.global_position = teleport_destination.global_position
+			body.is_possessing = false

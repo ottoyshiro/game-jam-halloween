@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b3w1vbkhlps4x" path="res://scenes/mobile_invocation.tscn" id="3_dqkch"]
 [ext_resource type="Texture2D" uid="uid://idt1ujb4g08x" path="res://sprites/spritesheet.png" id="4_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://d0bln6syhdwov" path="res://scenes/transition.tscn" id="5_qlg0r"]
+[ext_resource type="Script" uid="uid://e281gqxkcvfd" path="res://scripts/camera.gd" id="5_tuyoq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
 size = Vector2(13, 7)
@@ -34,10 +35,22 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera2D:zoom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(5, 5)]
+}
 
 [sub_resource type="Animation" id="Animation_ur7pv"]
 resource_name = "backwards"
-length = 0.19999999999999998
+length = 0.2
 loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -147,6 +160,23 @@ tracks/0/keys = {
 "values": [4]
 }
 
+[sub_resource type="Animation" id="Animation_jej6c"]
+resource_name = "loss_insanity"
+length = 0.2
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [16, 17]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fjrip"]
 _data = {
 &"RESET": SubResource("Animation_qlg0r"),
@@ -156,11 +186,12 @@ _data = {
 &"collect_red": SubResource("Animation_3v2ag"),
 &"idle": SubResource("Animation_tuyoq"),
 &"idle_rest": SubResource("Animation_fjrip"),
-&"idle_sleep": SubResource("Animation_smehm")
+&"idle_sleep": SubResource("Animation_smehm"),
+&"loss_insanity": SubResource("Animation_jej6c")
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=1649936855 node_paths=PackedStringArray("transition") groups=["Player"]]
-z_index = 2
+z_index = 3
 script = ExtResource("1_g2els")
 static_invocation_scene = ExtResource("2_qhqgy")
 mobile_invocation_scene = ExtResource("3_dqkch")
@@ -178,6 +209,7 @@ shape = SubResource("RectangleShape2D_bhunq")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1453956324]
 zoom = Vector2(5, 5)
+script = ExtResource("5_tuyoq")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1689850918]
 

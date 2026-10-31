@@ -11,6 +11,7 @@ var being_possessed: bool = false
 var player_ref: CharacterBody2D = null
 
 func _ready() -> void:
+	add_to_group("MobileInvocation")
 	timer_possession.timeout.connect(_on_timer_possession_timeout)
 	
 	if life_time > 0:

@@ -1,7 +1,7 @@
 extends Node
 
 var collected_items: int = 0
-
+var is_mirror_stopped: bool = false
 func _ready() -> void:
 	pass
 

@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody2D
 
+### x = 351 y = 548
+
 signal stamina_changed(current_stamina, max_stamina)
 
 @export var max_stamina: float = 100.0
@@ -26,6 +28,7 @@ signal stamina_changed(current_stamina, max_stamina)
 var last_direction: Vector2 = Vector2.DOWN
 var current_stamina: float
 var is_possessing: bool = false
+var is_collecting: bool = false
 var spawn_point: Vector2
 
 var time_stopped: float = 0.0
@@ -34,6 +37,7 @@ var can_sleep: bool = false
 var collected_items: Array[int] = []
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	animation_player.play("idle_rest")
 	transition.visible = true
 	
@@ -58,7 +62,7 @@ func _process(delta: float) -> void:
 		stamina_changed.emit(current_stamina, max_stamina)
 
 func _physics_process(delta: float) -> void:
-	if is_possessing:
+	if is_possessing or is_collecting:
 		velocity = Vector2.ZERO
 		return
 	
@@ -66,26 +70,43 @@ func _physics_process(delta: float) -> void:
 	
 	if input_vector != Vector2.ZERO:
 		velocity = velocity.move_toward(input_vector * max_speed, acceleration * delta)
+		
+		# Determina qual animação e direção usar com base no input atual
+		if abs(input_vector.x) > abs(input_vector.y):
+			# Movimento horizontal
+			if input_vector.x < 0:
+				sprite.flip_h = false
+			else:
+				sprite.flip_h = true
+			_trocar_animacao("idle")
+		else:
+			# Movimento vertical
+			if input_vector.y < 0:
+				_trocar_animacao("backwards")
+			else:
+				_trocar_animacao("idle_rest")
+		
+		# Reseta o temporizador de AFK
+		time_stopped = 0.0
+		can_sleep = false
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		
-	move_and_slide()
-	
-	if velocity.is_zero_approx():
-		# Se estiver parado, acumula o tempo que passou
+		# Se estiver parado, lida com o sistema de AFK
 		time_stopped += delta
-		
-		# Dispara a ação apenas uma vez quando atinge o limite
-		if time_stopped >= 5.0 and not can_sleep:
-			animation_player.play("idle_rest")
-
 		if time_stopped >= 7.0 and not can_sleep:
 			player_is_afk()
 			can_sleep = true
-	else:
-		# Se ele se mexeu, reseta o temporizador e a trava
-		time_stopped = 0.0
-		can_sleep = false
+		elif time_stopped < 5.0 and not can_sleep:
+			# Mantém a última animação ou uma animação de idle padrão
+			pass
+		
+	move_and_slide()
+
+# Função auxiliar para trocar animação APENAS se for diferente da atual
+func _trocar_animacao(nome_animacao: String) -> void:
+	if animation_player.current_animation != nome_animacao:
+		animation_player.play(nome_animacao)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_possessing:
@@ -98,21 +119,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("ui_focus_next"):
 		mobile_invoke()
-	
-	if event.is_action_pressed("left"):
-		animation_player.play("idle")
-		sprite.flip_h = false
-	
-	if event.is_action_pressed("right"):
-		animation_player.play("idle")
-		sprite.flip_h = true
-	
-	if event.is_action_pressed("down"):
-		animation_player.play("idle_rest")
-	
-	if event.is_action_pressed("up"):
-		animation_player.play("backwards")
-	
+
 
 func player_is_afk() -> void:
 	animation_player.play("idle_sleep")
@@ -142,6 +149,7 @@ func mobile_invoke() -> void:
 			
 			get_parent().add_child(invoke)
 			assume_possession(invoke)
+			GameManager.is_mirror_stopped = true
 
 func assume_possession(invocation) -> void:
 	is_possessing = true
@@ -149,6 +157,7 @@ func assume_possession(invocation) -> void:
 
 func return_control() -> void:
 	is_possessing = false
+	GameManager.is_mirror_stopped = false
 	if camera != null:
 		camera.make_current()
 
@@ -168,6 +177,10 @@ func die() -> void:
 	else:
 		_execute_respawn()
 
+func define_new_spawn_point(new_position: Vector2) -> void:
+	spawn_point = new_position
+	print("Spawn point updated to: ", spawn_point)
+
 func _execute_respawn() -> void:
 	print("The Invoker succumbed to the darkness... Returning to Hub!")
 	if is_possessing:
@@ -184,3 +197,12 @@ func apply_upgrade(item_id: int, new_time_possession: float) -> void:
 		print("Player items: ", collected_items)
 	current_time_possession = new_time_possession
 	print("Upgrade applied! New time possession: ", current_time_possession)
+
+func start_collect(nome_animacao: String) -> void:
+	is_collecting = true
+	velocity = Vector2.ZERO
+	print("Tentando tocar animação no Player: ", nome_animacao)
+	_trocar_animacao(nome_animacao)
+
+func finish_collect() -> void:
+	is_collecting = false

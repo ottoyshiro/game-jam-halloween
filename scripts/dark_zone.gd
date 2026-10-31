@@ -9,7 +9,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if player_on_zone != null:
-		# Se o Player estiver na zona, drena a stamina
 		if player_on_zone.has_method("spend_stamina"):
 			player_on_zone.spend_stamina(drained_stamina_per_second * delta)
 		

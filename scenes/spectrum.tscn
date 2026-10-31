@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bxcpdacra58ot"]
+
+[ext_resource type="Script" uid="uid://b22lsdomlk0ea" path="res://scripts/spectrum.gd" id="1_08c88"]
+[ext_resource type="Texture2D" uid="uid://idt1ujb4g08x" path="res://sprites/spritesheet.png" id="1_pwr6l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_riqys"]
+radius = 7.071068
+
+[node name="Spectrum" type="Area2D" unique_id=800597908]
+script = ExtResource("1_08c88")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1627075665]
+shape = SubResource("CircleShape2D_riqys")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=734835344]
+z_index = 8
+texture_filter = 1
+texture = ExtResource("1_pwr6l")
+region_enabled = true
+region_rect = Rect2(96, 48, 16, 16)
