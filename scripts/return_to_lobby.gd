@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var teleport_destination: Marker2D
+@export var main_menu: bool = false
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d: Sprite2D = $Sprite2D
@@ -9,6 +10,11 @@ extends Area2D
 func _ready() -> void:
 	sprite_2d.visible = false
 	collisor.set_deferred("disabled", true)
+
+func click_menu() -> void:
+	if main_menu:
+		show_teleport()
+		animation_player.play("return_menu")
 
 func show_teleport() -> void:
 	collisor.set_deferred("disabled", false)

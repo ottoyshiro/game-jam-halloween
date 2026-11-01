@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://do6ysvkdqnl1s"]
+
+[ext_resource type="FontFile" uid="uid://q5nk15fe40xn" path="res://Fonts/static/PixelifySans-Bold.ttf" id="1_l6cm7"]
+[ext_resource type="PackedScene" uid="uid://b3girnvry2qjd" path="res://scenes/return_to_lobby.tscn" id="3_bqqt6"]
+
+[sub_resource type="GDScript" id="GDScript_ekxnf"]
+resource_name = "main_menu"
+script/source = "extends Control
+
+
+
+
+func _on_button_pressed() -> void:
+	await get_tree().create_timer(1.5).timeout
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	get_tree().change_scene_to_file(\"res://scenes/main.tscn\")
+	
+
+
+func _on_button_2_pressed() -> void:
+	get_tree().quit()
+"
+
+[node name="MainMenu" type="Control" unique_id=334448363]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_ekxnf")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2054546236]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.18039216, 0.019607844, 0.29803923, 0.6862745)
+
+[node name="ReturnToLobby2" parent="." unique_id=1000533375 instance=ExtResource("3_bqqt6")]
+position = Vector2(577, 329)
+scale = Vector2(13.592268, 13.592268)
+main_menu = true
+
+[node name="ReturnToLobby3" parent="." unique_id=1693658278 instance=ExtResource("3_bqqt6")]
+position = Vector2(360.00003, 120.000015)
+scale = Vector2(4.806729, 4.806729)
+main_menu = true
+
+[node name="ReturnToLobby4" parent="." unique_id=51431791 instance=ExtResource("3_bqqt6")]
+position = Vector2(365, 539)
+scale = Vector2(4.806729, 4.806729)
+main_menu = true
+
+[node name="ReturnToLobby5" parent="." unique_id=1173187884 instance=ExtResource("3_bqqt6")]
+position = Vector2(789, 539.00006)
+scale = Vector2(4.806729, 4.806729)
+main_menu = true
+
+[node name="ReturnToLobby6" parent="." unique_id=786922845 instance=ExtResource("3_bqqt6")]
+position = Vector2(794, 123.00009)
+scale = Vector2(4.806729, 4.806729)
+main_menu = true
+
+[node name="Label" type="Label" parent="." unique_id=1212136189]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -227.0
+offset_top = 162.0
+offset_right = 230.0
+offset_bottom = 201.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 32
+text = "Jogo de Invocação Halloween"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=753885520]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = 32.0
+offset_right = 111.5
+offset_bottom = 96.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=1296988529]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_l6cm7")
+text = "Start Game"
+
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=1178481747]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_l6cm7")
+text = "Quit Game"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button" to="ReturnToLobby2" method="click_menu"]
+[connection signal="pressed" from="VBoxContainer/Button" to="ReturnToLobby3" method="click_menu"]
+[connection signal="pressed" from="VBoxContainer/Button" to="ReturnToLobby4" method="click_menu"]
+[connection signal="pressed" from="VBoxContainer/Button" to="ReturnToLobby5" method="click_menu"]
+[connection signal="pressed" from="VBoxContainer/Button" to="ReturnToLobby6" method="click_menu"]
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_button_2_pressed"]

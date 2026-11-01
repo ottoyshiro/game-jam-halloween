@@ -1,20 +1,115 @@
 [gd_scene format=3 uid="uid://b3w1vbkhlps4x"]
 
-[ext_resource type="Texture2D" uid="uid://x5yof1qr3dx5" path="res://icon.svg" id="1_e7ajd"]
 [ext_resource type="Script" uid="uid://xrwqy5eubwse" path="res://scripts/mobile_invocation.gd" id="1_k3cgv"]
+[ext_resource type="Texture2D" uid="uid://1owo3mcf42yr" path="res://sprites/FREE_Skeleton_Asset_Pack_v1.0-Micaelle_Britto/FREE_Skeleton_Asset_Pack_v1.0-Micaelle_Britto/Idle/Idle_F.png" id="2_k3cgv"]
+[ext_resource type="Texture2D" uid="uid://le2m4rlb1b2c" path="res://sprites/FREE_Skeleton_Asset_Pack_v1.0-Micaelle_Britto/FREE_Skeleton_Asset_Pack_v1.0-Micaelle_Britto/Idle/Split/Idle_B_Skeleton.png" id="3_27sii"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
-size = Vector2(12, 12)
+size = Vector2(12, 7)
+
+[sub_resource type="Animation" id="Animation_k3cgv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_k3cgv")]
+}
+
+[sub_resource type="Animation" id="Animation_ded5g"]
+resource_name = "backwards"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_27sii")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.08118276, 0.16579297, 0.24869426, 0.33245963, 0.41109827, 0.48802802, 0.56666666),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_27sii"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.1136809, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.03348833),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_k3cgv")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ded5g"]
+_data = {
+&"RESET": SubResource("Animation_k3cgv"),
+&"backwards": SubResource("Animation_ded5g"),
+&"idle": SubResource("Animation_27sii")
+}
 
 [node name="mobile_invocation" type="CharacterBody2D" unique_id=1774157373 groups=["MobileInvocation"]]
 z_index = 2
 script = ExtResource("1_k3cgv")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=44230579]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_e7ajd")
+texture_filter = 1
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_k3cgv")
+hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2074098837]
+position = Vector2(0, 3.5)
 shape = SubResource("RectangleShape2D_bhunq")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=163092221]
@@ -22,3 +117,6 @@ zoom = Vector2(5, 5)
 
 [node name="TimerPossession" type="Timer" parent="." unique_id=1281097100]
 one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1224633452]
+libraries/ = SubResource("AnimationLibrary_ded5g")

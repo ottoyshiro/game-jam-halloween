@@ -176,5 +176,7 @@ func exibir_tela_final() -> void:
 		game_over.visible = true
 	print("In an attempt to become the greatest summoner of all time, you summoned an evil beast that destroyed you.")
 	
+	await get_tree().create_timer(2.0).timeout
 	# Você pode alternar para uma nova Cena de Créditos/Fim ou mostrar uma UI de Game Over:
-	# get_tree().change_scene_to_file("res://Cenas/TelaFinal.tscn")
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

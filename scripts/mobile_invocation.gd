@@ -6,6 +6,8 @@ extends CharacterBody2D
 
 @onready var camera: Camera2D = $Camera2D
 @onready var timer_possession: Timer = $TimerPossession
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var being_possessed: bool = false
 var player_ref: CharacterBody2D = null
@@ -22,7 +24,24 @@ func _physics_process(delta: float) -> void:
 	if being_possessed:
 		var direction = Input.get_vector("left", "right", "up", "down")
 		velocity = direction * invocation_velocity
+		
+		if abs(direction.x) > abs(direction.y):
+			# Movimento horizontal
+			if direction.x < 0:
+				sprite.flip_h = false
+			else:
+				sprite.flip_h = true
+		
+		if direction.y < 0:
+			_trocar_animacao("backwards")
+		else:
+			_trocar_animacao("idle")
+
 		move_and_slide()
+
+func _trocar_animacao(nome_animacao: String) -> void:
+	if animation_player.current_animation != nome_animacao:
+		animation_player.play(nome_animacao)
 
 func start_possession(player: CharacterBody2D) -> void:
 	player_ref = player

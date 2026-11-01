@@ -99,7 +99,6 @@ size = Vector2(9, 16)
 
 [node name="Door" type="StaticBody2D" unique_id=155090145]
 script = ExtResource("1_uvdjg")
-opened_by_default = true
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1808444786]
 z_index = 8

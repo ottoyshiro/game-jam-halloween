@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 ### x = 351 y = 548
-
+signal died
 signal stamina_changed(current_stamina, max_stamina)
 
 @export var max_stamina: float = 100.0
@@ -172,6 +172,7 @@ func spend_stamina(cost: float) -> bool:
 		return false
 
 func die() -> void:
+	died.emit()
 	if transition != null:
 		transition.execute_transition(_execute_respawn)
 	else:
