@@ -12,6 +12,7 @@ signal collected
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -42,6 +43,8 @@ func _on_body_entered(body: Node2D) -> void:
 		collect_item(body)
 
 func collect_item(player: Node2D) -> void:
+	audio_stream_player.play()
+	await get_tree().create_timer(3.0).timeout
 	print("Ordeal Item ", item_id, " collected!")
 	
 	# 1. Aplica o upgrade no Player

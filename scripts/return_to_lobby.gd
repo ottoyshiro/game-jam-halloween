@@ -6,6 +6,7 @@ extends Area2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collisor: CollisionShape2D = $CollisionShape2D
+@onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 func _ready() -> void:
 	sprite_2d.visible = false
@@ -15,6 +16,7 @@ func click_menu() -> void:
 	if main_menu:
 		show_teleport()
 		animation_player.play("return_menu")
+		audio_stream_player.play()
 
 func show_teleport() -> void:
 	collisor.set_deferred("disabled", false)
@@ -31,6 +33,7 @@ func _on_body_entered(body: Node2D) -> void:
 		body._trocar_animacao("idle_rest")
 		body.global_position = Vector2(global_position.x+1.5, global_position.y-5)
 		animation_player.play("return")
+		audio_stream_player.play()
 		await get_tree().create_timer(1).timeout
 		
 		var transition = body.transition

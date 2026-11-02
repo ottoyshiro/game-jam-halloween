@@ -3,6 +3,7 @@ extends Area2D
 
 @export var is_active: bool = false
 var player_on_zone: Node2D = null
+@onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -32,6 +33,7 @@ func _on_body_entered(body: Node2D) -> void:
 				player_on_zone.die()
 				player_on_zone = null
 				animation_player.play_backwards("spike")
+				audio_stream_player.play()
 		
 
 func _on_body_exited(body: Node2D) -> void:

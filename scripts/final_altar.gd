@@ -10,6 +10,12 @@ extends Area2D
 @export var tempo_transicao: float = 0.8
 
 @export var doors_positions: Array[Marker2D]
+@onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var audio_stream_player_earth: AudioStreamPlayer2D = $AudioStreamPlayer2D2
+@onready var bite_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D3
+@onready var fear_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D4
+@onready var flesh_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D5
+
 
 var zoom_original: Vector2 = Vector2(1, 1)
 var player_on_reach: Node2D = null
@@ -108,6 +114,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if player_camera != null and player_camera.has_method("mover_foco_para"):
 			for i in range(len(doors_positions)):
 				player_camera.mover_foco_para(doors_positions[i].global_position, 0.8)
+				audio_stream_player.play()
 				
 				var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 				tween.tween_property(player_camera, "zoom", zoom_original, tempo_transicao)
@@ -134,6 +141,7 @@ func try_start_ritual() -> void:
 	if player_on_reach.collected_items.size() >= 3:
 		print("Ritual started! All 3 items were placed in altar.")
 		execute_final_game()
+		audio_stream_player_earth.play(1.0)
 	else:
 		var missing = 3 - player_on_reach.collected_items.size()
 		print("The altar consume energy... Still missing ", missing, " item(s)!")
@@ -147,6 +155,21 @@ func execute_final_game() -> void:
 		animation_player.play("final")
 		if camera.has_method("tremer_tela"):
 			camera.tremer_tela(1.5, 12.0)
+			await get_tree().create_timer(3).timeout
+			bite_sound.play()
+			await get_tree().create_timer(1).timeout
+	
+			if audio_stream_player_earth.playing:
+				# Cria um Tween para abaixar o volume gradualmente até -80 dB (mudo)
+				var tween = create_tween()
+				tween.tween_property(audio_stream_player_earth, "volume_db", -80.0, 1)
+				
+				# Espera o fade terminar para realmente parar o player
+				await tween.finished
+				audio_stream_player_earth.stop()
+				
+				# Reseta o volume para a próxima vez que for tocar
+				audio_stream_player_earth.volume_db = 0.0
 	# 2. Transição visual ou tremor de câmera (Screen Shake)
 	print("The floor shake... The shadows stir!")
 	
@@ -156,8 +179,14 @@ func execute_final_game() -> void:
 		beast.global_position = global_position + Vector2(0, -32) # Um pouco acima da mesa
 		get_parent().add_child(beast)
 	
+	bite_sound.play()
+	await get_tree().create_timer(1).timeout
+	fear_sound.play()
 	# 4. Aguarda um momento dramático (ex: 2 segundos)
-	await get_tree().create_timer(10.0).timeout
+	await get_tree().create_timer(7.0).timeout
+	flesh_sound.play()
+	player_on_reach.visible = false
+	await get_tree().create_timer(3.0).timeout
 	animation_player.play("death_")
 	# 5. Tela de Morte / Fim Trágico
 	exibir_tela_final()

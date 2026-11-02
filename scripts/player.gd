@@ -24,6 +24,7 @@ signal stamina_changed(current_stamina, max_stamina)
 @onready var camera: Camera2D = $Camera2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 var last_direction: Vector2 = Vector2.DOWN
 var current_stamina: float
@@ -126,6 +127,7 @@ func player_is_afk() -> void:
 
 func static_invoke() -> void:
 	if spend_stamina(static_invocation_cost):
+		audio_stream_player.play()
 		if static_invocation_scene != null:
 			var invoke = static_invocation_scene.instantiate()
 			
@@ -139,6 +141,7 @@ func static_invoke() -> void:
 
 func mobile_invoke() -> void:
 	if spend_stamina(mobile_invocation_cost):
+		audio_stream_player.play()
 		if mobile_invocation_scene != null:
 			var invoke = mobile_invocation_scene.instantiate()
 			

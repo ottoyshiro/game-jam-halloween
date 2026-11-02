@@ -59,3 +59,7 @@ func _on_body_entered(body: Node2D) -> void:
 			body.spend_stamina(drain_stamina_contact)
 		if body.has_method("die"):
 			body.die()
+
+func _on_player_died() -> void:
+	if origin_spawn != null:
+		global_position = origin_spawn.global_position

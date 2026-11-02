@@ -2,6 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://q5nk15fe40xn" path="res://Fonts/static/PixelifySans-Bold.ttf" id="1_l6cm7"]
 [ext_resource type="PackedScene" uid="uid://b3girnvry2qjd" path="res://scenes/return_to_lobby.tscn" id="3_bqqt6"]
+[ext_resource type="AudioStream" uid="uid://bdho0w5erw2lo" path="res://sounds/mfcc-halloween-halloween-music-597345.mp3" id="3_wu84c"]
 
 [sub_resource type="GDScript" id="GDScript_ekxnf"]
 resource_name = "main_menu"
@@ -105,6 +106,11 @@ texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_l6cm7")
 text = "Quit Game"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=948810530]
+stream = ExtResource("3_wu84c")
+autoplay = true
+parameters/looping = true
 
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button" to="ReturnToLobby2" method="click_menu"]

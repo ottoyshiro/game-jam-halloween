@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dc78ij64a0wy5" path="res://sprites/life_bar_under.png" id="6_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://d0xrgqc4522g" path="res://sprites/life_bar_over.png" id="7_y4r1p"]
 [ext_resource type="Texture2D" uid="uid://epy6js704run" path="res://sprites/life_bar.png" id="8_d2wvv"]
+[ext_resource type="AudioStream" uid="uid://ckx203dnfgr" path="res://sounds/universfield-spell-casting-229208.mp3" id="10_y4r1p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
 size = Vector2(13, 7)
@@ -237,5 +238,8 @@ visible = false
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=495987795]
 libraries/ = SubResource("AnimationLibrary_fjrip")
 autoplay = &"idle"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=2131602574]
+stream = ExtResource("10_y4r1p")
 
 [connection signal="stamina_changed" from="." to="UI/Node2D/StaminaBar" method="_on_stamina_changed"]
